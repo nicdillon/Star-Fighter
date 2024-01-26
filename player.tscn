@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://bk4w8rmv6h7v5"]
+
+[ext_resource type="Script" path="res://player.cs" id="1_0vg1j"]
+[ext_resource type="Texture2D" uid="uid://dkw12rdoguaxg" path="res://art/Fighter/Idle.png" id="2_4ua3o"]
+[ext_resource type="Texture2D" uid="uid://ww2l3e63ba8o" path="res://art/Fighter/IdleHit.png" id="3_owhhn"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u3pms"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4ua3o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_owhhn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
+[node name="Player" type="Area2D"]
+process_mode = 1
+scale = Vector2(4, 4)
+script = ExtResource("1_0vg1j")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -10.0
+offset_top = -8.0
+offset_right = -10.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.25, 0.25)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_4ua3o")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="hitbox" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(-7.5, 0, -8, -0.5, -8, -1.5, -9, -2, -9, -3, -7, -4, -7.5, -4.5, -7.5, -6.5, -4.5, -8, -2, -8, -1, -6.5, 6, -5, 8, -3.5, 10, -3.5, 10.5, -3, 12, -3, 13, -2, 14, -2, 14.5, -2, 14, -1.5, 7, -1.5, 6, -2.5, 5, -2.5, 4.5, -3, 1.5, -3, 1, -2.5, 2, -1.5, 3, -1.5, 3.5, -1, 4, -0.5, 2, -0.5, 1, 0, 2, 0.5, 3.5, 0.5, 3.5, 1, 3, 1.5, 2, 1.5, 1.5, 2.5, 4.5, 2.5, 6, 2.5, 7, 1.5, 14, 1.5, 14, 2.5, 12.5, 2.5, 12, 3, 10, 3, 9.5, 3.5, 8, 3.5, 6.5, 5, -1, 6.5, -2.5, 8, -4.5, 8, -7.5, 6.5, -7.5, 3.5, -9, 2.5, -9, 2, -8, 1.5, -8, 0.5)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1.5, 0)
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_u3pms")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="OnTimerTimeout"]

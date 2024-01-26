@@ -1,0 +1,98 @@
+[gd_scene load_steps=3 format=3 uid="uid://dueebi8mxb37x"]
+
+[ext_resource type="Script" path="res://pause_menu.cs" id="1_5rsti"]
+[ext_resource type="FontFile" uid="uid://wmnaspvxv45k" path="res://fonts/Xolonium-Regular.ttf" id="1_nlspx"]
+
+[node name="PauseMenu" type="CanvasLayer"]
+process_mode = 2
+script = ExtResource("1_5rsti")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.545098)
+
+[node name="Pause" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -23.5
+offset_top = 280.0
+offset_right = 23.5
+offset_bottom = 303.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_nlspx")
+theme_override_font_sizes/font_size = 80
+text = "Paused"
+
+[node name="Quit" type="Button" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -73.0
+offset_top = -130.0
+offset_right = 73.0
+offset_bottom = -44.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_nlspx")
+theme_override_font_sizes/font_size = 64
+text = "Quit"
+
+[node name="Resume" type="Button" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -139.5
+offset_top = -580.0
+offset_right = 139.5
+offset_bottom = -494.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_nlspx")
+theme_override_font_sizes/font_size = 64
+text = "Resume"
+
+[node name="Settings" type="Button" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -145.5
+offset_top = -430.0
+offset_right = 145.5
+offset_bottom = -344.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_nlspx")
+theme_override_font_sizes/font_size = 64
+text = "Settings"
+
+[node name="Restart" type="Button" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -280.0
+offset_right = 128.0
+offset_bottom = -194.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_nlspx")
+theme_override_font_sizes/font_size = 64
+text = "Restart"
+
+[connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Restart" to="." method="_on_restart_pressed"]

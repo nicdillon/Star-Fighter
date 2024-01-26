@@ -1,0 +1,119 @@
+[gd_scene load_steps=16 format=3 uid="uid://c05ldfv5eookf"]
+
+[ext_resource type="Script" path="res://main.cs" id="1_8pefi"]
+[ext_resource type="PackedScene" uid="uid://bk4w8rmv6h7v5" path="res://player.tscn" id="1_46v45"]
+[ext_resource type="PackedScene" uid="uid://c2f2crbwifqs8" path="res://mob.tscn" id="2_ttmnx"]
+[ext_resource type="Texture2D" uid="uid://byk4w87vgdbil" path="res://art/space_background.jpg" id="3_hehig"]
+[ext_resource type="PackedScene" uid="uid://dueebi8mxb37x" path="res://pause_menu.tscn" id="3_vxkd5"]
+[ext_resource type="PackedScene" uid="uid://dom2lpge16lbn" path="res://lazer.tscn" id="3_ws4rb"]
+[ext_resource type="PackedScene" uid="uid://b8a868vi3o1ng" path="res://hud.tscn" id="4_j0jiw"]
+[ext_resource type="Script" path="res://MobPath.cs" id="5_8wkmi"]
+[ext_resource type="AudioStream" uid="uid://dw4nisne162a2" path="res://art/gameover.wav" id="5_d3n4c"]
+[ext_resource type="PackedScene" uid="uid://clhwb0cimvqkp" path="res://dialogue_scene.tscn" id="6_nymy4"]
+[ext_resource type="PackedScene" uid="uid://te3omna6qvbe" path="res://settings_menu.tscn" id="9_t2omy"]
+[ext_resource type="AudioStream" uid="uid://knj11jc55tcl" path="res://sounds/SpaceChaseMusic.wav" id="11_svrf2"]
+[ext_resource type="AudioStream" uid="uid://b73liw5kgmi2" path="res://sounds/BasicLazer.wav" id="12_gvfii"]
+[ext_resource type="Texture2D" uid="uid://cpdcs8wtfs2ld" path="res://art/Earth.png" id="14_wbs7e"]
+
+[sub_resource type="Curve2D" id="Curve2D_mfbya"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1080, 0, 0, 0, 0, 0, 192, 0, 0, 0, 0, 0, 0)
+}
+point_count = 4
+
+[node name="Main" type="Node"]
+process_mode = 3
+script = ExtResource("1_8pefi")
+MobScene = ExtResource("2_ttmnx")
+ProjectileScene = ExtResource("3_ws4rb")
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_hehig")
+expand_mode = 1
+
+[node name="Player" parent="." instance=ExtResource("1_46v45")]
+
+[node name="MobTimer" type="Timer" parent="."]
+process_mode = 1
+wait_time = 0.5
+
+[node name="ScoreTimer" type="Timer" parent="."]
+process_mode = 1
+
+[node name="StartTimer" type="Timer" parent="."]
+process_mode = 1
+wait_time = 2.0
+one_shot = true
+
+[node name="FiringCooldown" type="Timer" parent="."]
+wait_time = 0.001
+one_shot = true
+
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(960, 512)
+
+[node name="Lazer" parent="." instance=ExtResource("3_ws4rb")]
+visible = false
+
+[node name="Control" type="Control" parent="."]
+process_mode = 1
+layout_mode = 3
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 8
+
+[node name="MobPath" type="Path2D" parent="Control"]
+curve = SubResource("Curve2D_mfbya")
+script = ExtResource("5_8wkmi")
+
+[node name="MobSpawnLocation" type="PathFollow2D" parent="Control/MobPath"]
+rotation = 1.5708
+
+[node name="HUD" parent="." instance=ExtResource("4_j0jiw")]
+
+[node name="DialogueScene" parent="." instance=ExtResource("6_nymy4")]
+visible = false
+
+[node name="PauseMenu" parent="." instance=ExtResource("3_vxkd5")]
+visible = false
+
+[node name="SettingsMenu" parent="." instance=ExtResource("9_t2omy")]
+visible = false
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_svrf2")
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_d3n4c")
+
+[node name="LazerShotNoise" type="AudioStreamPlayer" parent="."]
+process_mode = 1
+stream = ExtResource("12_gvfii")
+pitch_scale = 0.5
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 1336.0
+offset_top = 88.0
+offset_right = 1936.0
+offset_bottom = 688.0
+texture = ExtResource("14_wbs7e")
+
+[connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
+[connection signal="HitTimerTimeout" from="Player" to="." method="OnPlayerHitTimerTimeout"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="HitAsteroid" from="Lazer" to="." method="OnLazerHitAsteriod"]
+[connection signal="StartGame" from="HUD" to="." method="NewGame"]
+[connection signal="Restart" from="PauseMenu" to="." method="_on_pause_menu_restart"]
+[connection signal="ResumeGame" from="PauseMenu" to="." method="_on_pause_menu_resume_game"]
+[connection signal="Settings" from="PauseMenu" to="." method="_on_pause_menu_settings"]

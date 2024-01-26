@@ -1,0 +1,75 @@
+[gd_scene load_steps=8 format=3 uid="uid://c2f2crbwifqs8"]
+
+[ext_resource type="Script" path="res://mob.cs" id="1_x52f2"]
+[ext_resource type="Texture2D" uid="uid://cbvhaplau14gh" path="res://art/asteroid1.png" id="2_1rox2"]
+[ext_resource type="Texture2D" uid="uid://bj5onttndb2e7" path="res://art/asteroidblasted1.png" id="3_uotug"]
+[ext_resource type="Texture2D" uid="uid://di8ybv1dc6m2f" path="res://art/asteroidblasted2.png" id="4_pllxy"]
+[ext_resource type="Texture2D" uid="uid://d4j5r1rbsrcjx" path="res://art/asteroidblasted3.png" id="5_x5sso"]
+[ext_resource type="AudioStream" uid="uid://deyg5ky6o34xe" path="res://sounds/AsteriodSplit.wav" id="6_4p3dq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4jbie"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_1rox2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_uotug")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_pllxy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_x5sso")
+}],
+"loop": false,
+"name": &"blasted",
+"speed": 4.0
+}]
+
+[node name="Mob" type="RigidBody2D" groups=["mobs"]]
+process_mode = 1
+scale = Vector2(1.5, 1.5)
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_x52f2")
+metadata/_edit_group_ = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(20, 20)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_1rox2")
+expand_mode = 1
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(3.57628e-07, -4.76837e-07)
+scale = Vector2(1.5, 1.3)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(10, -10, 12, -9, 12, -6, 15, -2, 15, 1, 14, 3, 14, 5, 12, 8, 10, 10, 4, 13, -1, 12, -7, 8, -10, 8, -15, 5, -14, -4, -13, -8, -7, -10, -5, -13, 1, -13, 3, -13, 6, -11, 9, -11)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.075, 0.075)
+sprite_frames = SubResource("SpriteFrames_4jbie")
+animation = &"blasted"
+speed_scale = 2.0
+
+[node name="AsteriodHitNoise" type="AudioStreamPlayer" parent="."]
+process_mode = 1
+stream = ExtResource("6_4p3dq")
+volume_db = 1.0
+pitch_scale = 0.5
+
+[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
