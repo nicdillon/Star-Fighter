@@ -75,4 +75,18 @@ public partial class player : Area2D
 		animation.Hide();
 		EmitSignal(SignalName.HitTimerTimeout);
 	}
+
+	private void OnAreaEntered(Area2D area)
+	{
+		if (area is EnemyLazer) 
+		{
+			var animation = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+			animation.Show();
+			animation.Play();
+			EmitSignal(SignalName.Hit);
+			GetNode<CollisionPolygon2D>("hitbox").SetDeferred(CollisionPolygon2D.PropertyName.Disabled, true);
+			var hitTimer = GetNode<Timer>("Timer");
+			hitTimer.Start();
+		}
+	}
 }

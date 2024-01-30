@@ -169,12 +169,14 @@ offset_bottom = 40.0
 texture = ExtResource("4_kwjy8")
 
 [node name="TextureRect2" type="TextureRect" parent="Container/Control"]
+layout_mode = 0
 offset_left = 48.0
 offset_right = 88.0
 offset_bottom = 40.0
 texture = ExtResource("4_kwjy8")
 
 [node name="TextureRect3" type="TextureRect" parent="Container/Control"]
+layout_mode = 0
 offset_left = 96.0
 offset_right = 136.0
 offset_bottom = 40.0

@@ -31,4 +31,5 @@ polygon = PackedVector2Array(23, -27, 43, -20, 60, 3, 46, 24, 25, 33, -64, 3)
 position = Vector2(-7, 3)
 scale = Vector2(6.3, 2.6)
 
+[connection signal="area_entered" from="." to="." method="OnAreaEntered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

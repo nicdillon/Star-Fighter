@@ -7,6 +7,8 @@ public partial class main : Node
 	public PackedScene MobScene { get; set; }
 	[Export]
 	public PackedScene ProjectileScene { get; set; }
+	[Export]
+	public PackedScene EnemyProjectileScene { get; set; }
 
 	private bool firingDisabled = true;
 	private bool firingCooldownActive = true;
@@ -14,6 +16,7 @@ public partial class main : Node
 	private string currentScreen = "main";
 	private Vector2 screenSize = new(1920, 1080);
 	private int livesLeft = 3;
+	private bool bossEnemyIsActive = true;
 
 	private int score;
 
@@ -22,11 +25,16 @@ public partial class main : Node
 	{
 		// skip this method
 		//NewGame();
+		if (bossEnemyIsActive)
+		{
+			GetNode<Timer>("FiringCooldown").Start();
+		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		// MoveBoss((float)delta);
 	}
 
 	public override void _Input(InputEvent @event)
@@ -62,6 +70,7 @@ public partial class main : Node
 		livesLeft = 3;
 		GetTree().CallGroup("mobs", Node.MethodName.QueueFree);
 		GetTree().CallGroup("lazers", Node.MethodName.QueueFree);
+		GetTree().CallGroup("enemyLazers", Node.MethodName.QueueFree);
 
 		GetNode<AudioStreamPlayer>("Music").Play();
 		var hud = GetNode<hud>("HUD");
@@ -245,5 +254,44 @@ public partial class main : Node
 	private void OnPlayerHitTimerTimeout()
 	{
 		firingDisabled = false;
+	}
+
+	private void MoveBoss(float delta) 
+	{
+		// var boss = GetNode<EnemyBoss>("EnemyBoss");
+		// var bossMovementPath = GetNode<PathFollow2D>("BossPath/PathFollow2D");
+		// bossMovementPath.ProgressRatio += delta * 0.025f;
+
+		// // Rotate the asteroid towards the players direction
+		// float direction = Mathf.Pi;
+
+		// boss.Position = new Vector2(bossMovementPath.Position.X, bossMovementPath.Position.Y);
+
+		//direction += (float)GD.RandRange(-Mathf.Pi / 16, Mathf.Pi / 16);
+		//boss.Rotation += direction;
+	}
+	
+	private void OnFiringCooldownTimeout()
+	{
+		EnemyLazer enemyLazer1 = EnemyProjectileScene.Instantiate<EnemyLazer>();
+		EnemyLazer enemyLazer2 = EnemyProjectileScene.Instantiate<EnemyLazer>();
+
+		var projectileSpawnLocation1 = GetNode<Area2D>("EnemyBoss").Position + new Vector2(-54, 28);
+		var projectileSpawnLocation2 = GetNode<Area2D>("EnemyBoss").Position + new Vector2(-54, -28);
+
+		enemyLazer1.Position = projectileSpawnLocation1;
+		enemyLazer2.Position = projectileSpawnLocation2;
+
+		AddChild(enemyLazer1);
+		AddChild(enemyLazer2);
+
+		GetNode<Area2D>("EnemyBoss").GetNode<AnimatedSprite2D>("AnimatedSprite2D").Play("shooting");
+		GetNode<AudioStreamPlayer>("EnemyLazerShotNoise").Play();
+	}
+
+	private void OnBossDestroyed()
+	{
+		bossEnemyIsActive = false;
+		GetNode<Timer>("FiringCooldown").Stop();
 	}
 }

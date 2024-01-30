@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://d88yc76uddsb"]
+
+[ext_resource type="Script" path="res://EnemyLazer.cs" id="1_h0u4k"]
+[ext_resource type="Texture2D" uid="uid://cpxs6sdrtnlx6" path="res://art/Corvette/Charge_1.png" id="1_ql63d"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7dksr"]
+radius = 8.0
+height = 48.0
+
+[node name="EnemyLazer" type="Area2D"]
+process_mode = 1
+script = ExtResource("1_h0u4k")
+
+[node name="Image" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+texture = ExtResource("1_ql63d")
+stretch_mode = 2
+
+[node name="HitBox" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_7dksr")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(-1.90735e-06, -9.53674e-07)
+scale = Vector2(2.4, 0.8)
+
+[connection signal="area_entered" from="." to="." method="OnPlayerHit"]
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]
