@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Godot;
 
 public partial class EnemyBoss : Area2D
@@ -7,12 +8,12 @@ public partial class EnemyBoss : Area2D
 
 	public float PathHeight = 400;
 	public float PathWidth = 150;
-	private int health = 100;
+	public bool BossIsActive = false;
 
+	private int health = 100;
 	private float speed = 0.3f;
 	private float time = 0.0f;
 	private Vector2 screenSize;
-	private bool bossActive = true;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -29,7 +30,7 @@ public partial class EnemyBoss : Area2D
 	{
 		if (GetTree().Paused == true)
 			return;
-		if (bossActive) {
+		if (BossIsActive) {
 			time += speed * (float)delta;
 			Position = new Vector2(screenSize.X * 0.8f + PathWidth * Mathf.Sin(time), screenSize.Y * 0.5f + PathHeight * Mathf.Sin(2 * time));
 		}
@@ -40,6 +41,7 @@ public partial class EnemyBoss : Area2D
 		if (projectileType == "basicLazer")
 		{
 			health -= 10;
+			GetNode<ProgressBar>("HealthBar").Value = health;
 			if (health <= 0)
 			{
 				Explode();
@@ -49,15 +51,21 @@ public partial class EnemyBoss : Area2D
 
 	private void Explode()
 	{
+		PlayDeathNoise();
+		GetNode<ProgressBar>("HealthBar").Hide();
 		GetNode<CollisionPolygon2D>("CollisionPolygon2D").SetDeferred(CollisionPolygon2D.PropertyName.Disabled, true);
 		var animatedBody = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		animatedBody.Show();
 		animatedBody.Play("destroyed");
-		// var explosionSound = GetNode<AudioStreamPlayer>("ExplosionSound");
-		// explosionSound.Play();
-		bossActive = false;
+		BossIsActive = false;
 		EmitSignal(SignalName.BossDestroyed);
+	}
+	
+	private async Task PlayDeathNoise()
+	{
+		await ToSignal(GetTree().CreateTimer(0.75f), "timeout");
 
+		GetNode<AudioStreamPlayer>("DeathExplosion").Play();
 	}
 
 	private void OnAnimationFinished()
@@ -65,6 +73,7 @@ public partial class EnemyBoss : Area2D
 		if (GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation == "destroyed")
 		{
 			GetNode<AnimatedSprite2D>("AnimatedSprite2D").Stop();
+			Hide();
 			return;
 		}
 
@@ -79,6 +88,7 @@ public partial class EnemyBoss : Area2D
 	{
 		if (GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation == "destroyed")
 		{
+			Hide();
 			GetNode<AnimatedSprite2D>("AnimatedSprite2D").Stop();
 			return;
 		}

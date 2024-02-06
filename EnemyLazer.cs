@@ -54,7 +54,7 @@ public partial class EnemyLazer : Area2D
 		{
 			GetNode<CollisionShape2D>("HitBox").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
 			Hide();
-			//EmitSignal(SignalName.HitPlayer); 
+			EmitSignal(SignalName.HitPlayer); 
 		}
 	}
 }

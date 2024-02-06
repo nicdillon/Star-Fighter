@@ -9,6 +9,7 @@ height = 48.0
 
 [node name="EnemyLazer" type="Area2D"]
 process_mode = 1
+scale = Vector2(1.5, 1.5)
 script = ExtResource("1_h0u4k")
 
 [node name="Image" type="TextureRect" parent="."]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c05ldfv5eookf"]
+[gd_scene load_steps=22 format=3 uid="uid://c05ldfv5eookf"]
 
 [ext_resource type="Script" path="res://main.cs" id="1_8pefi"]
 [ext_resource type="PackedScene" uid="uid://bk4w8rmv6h7v5" path="res://player.tscn" id="1_46v45"]
@@ -10,12 +10,15 @@
 [ext_resource type="PackedScene" uid="uid://b8a868vi3o1ng" path="res://hud.tscn" id="4_j0jiw"]
 [ext_resource type="Script" path="res://MobPath.cs" id="5_8wkmi"]
 [ext_resource type="AudioStream" uid="uid://dw4nisne162a2" path="res://art/gameover.wav" id="5_d3n4c"]
+[ext_resource type="Texture2D" uid="uid://wlpbbttljd73" path="res://art/starfield_background.png" id="5_ig2ws"]
 [ext_resource type="PackedScene" uid="uid://bg27kgec13v4r" path="res://EnemyBoss.tscn" id="6_dl64u"]
 [ext_resource type="PackedScene" uid="uid://clhwb0cimvqkp" path="res://dialogue_scene.tscn" id="6_nymy4"]
+[ext_resource type="Texture2D" uid="uid://csfyvf5bhuaxt" path="res://art/asteriod_background.png" id="6_v0pc8"]
 [ext_resource type="PackedScene" uid="uid://te3omna6qvbe" path="res://settings_menu.tscn" id="9_t2omy"]
 [ext_resource type="AudioStream" uid="uid://knj11jc55tcl" path="res://sounds/SpaceChaseMusic.wav" id="11_svrf2"]
 [ext_resource type="AudioStream" uid="uid://b73liw5kgmi2" path="res://sounds/BasicLazer.wav" id="12_gvfii"]
 [ext_resource type="Texture2D" uid="uid://cpdcs8wtfs2ld" path="res://art/Earth.png" id="14_wbs7e"]
+[ext_resource type="AudioStream" uid="uid://cm5722rgkjlbr" path="res://sounds/Collision.wav" id="17_33wbj"]
 
 [sub_resource type="Curve2D" id="Curve2D_mfbya"]
 _data = {
@@ -32,7 +35,28 @@ MobScene = ExtResource("2_ttmnx")
 ProjectileScene = ExtResource("3_ws4rb")
 EnemyProjectileScene = ExtResource("4_8s225")
 
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(2560, 0)
+
+[node name="TextureRect" type="TextureRect" parent="ParallaxBackground/ParallaxLayer"]
+offset_right = 5760.0
+offset_bottom = 1080.0
+texture = ExtResource("5_ig2ws")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(2, 2)
+motion_mirroring = Vector2(2560, 0)
+
+[node name="TextureRect" type="TextureRect" parent="ParallaxBackground/ParallaxLayer2"]
+offset_right = 5760.0
+offset_bottom = 1080.0
+texture = ExtResource("6_v0pc8")
+
 [node name="Background" type="TextureRect" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -44,7 +68,7 @@ expand_mode = 1
 [node name="Player" parent="." instance=ExtResource("1_46v45")]
 
 [node name="EnemyBoss" parent="." instance=ExtResource("6_dl64u")]
-position = Vector2(1664, 448)
+position = Vector2(2072, 464)
 
 [node name="MobTimer" type="Timer" parent="."]
 process_mode = 1
@@ -115,9 +139,9 @@ stream = ExtResource("12_gvfii")
 pitch_scale = 0.5
 
 [node name="TextureRect" type="TextureRect" parent="."]
-offset_left = 1920.0
+offset_left = 2072.0
 offset_top = -136.0
-offset_right = 2520.0
+offset_right = 2672.0
 offset_bottom = 464.0
 texture = ExtResource("14_wbs7e")
 
@@ -125,6 +149,14 @@ texture = ExtResource("14_wbs7e")
 curve = SubResource("Curve2D_o376k")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="BossPath"]
+
+[node name="Collision" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("17_33wbj")
+
+[node name="BossTimer" type="Timer" parent="."]
+process_mode = 1
+wait_time = 25.0
+one_shot = true
 
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="HitTimerTimeout" from="Player" to="." method="OnPlayerHitTimerTimeout"]
@@ -139,3 +171,4 @@ curve = SubResource("Curve2D_o376k")
 [connection signal="Restart" from="PauseMenu" to="." method="_on_pause_menu_restart"]
 [connection signal="ResumeGame" from="PauseMenu" to="." method="_on_pause_menu_resume_game"]
 [connection signal="Settings" from="PauseMenu" to="." method="_on_pause_menu_settings"]
+[connection signal="timeout" from="BossTimer" to="." method="OnBossTimerTimeout"]

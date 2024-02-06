@@ -16,7 +16,8 @@ public partial class main : Node
 	private string currentScreen = "main";
 	private Vector2 screenSize = new(1920, 1080);
 	private int livesLeft = 3;
-	private bool bossEnemyIsActive = true;
+	private bool bossEnemyIsActive = false;
+	private float time = 0.0f;
 
 	private int score;
 
@@ -34,7 +35,10 @@ public partial class main : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		// MoveBoss((float)delta);
+		time += 20f * (float)delta;
+		GetNode<ParallaxBackground>("ParallaxBackground").Offset = new Vector2(-time, 0.0f);
+		//GetNode<ParallaxLayer>("ParallaxLayer2").MotionOffset = new Vector2(2 * -time, 0.0f);
+		GetNode<ParallaxBackground>("ParallaxBackground").ScrollBaseOffset = new Vector2(-time, 0.0f);
 	}
 
 	public override void _Input(InputEvent @event)
@@ -120,15 +124,13 @@ public partial class main : Node
 
 	private void _on_score_timer_timeout()
 	{
-		// score++;
-
-		// GetNode<hud>("HUD").UpdateScore(score);
 	}
 
 	private void _on_start_timer_timeout()
 	{
 		GetNode<Timer>("MobTimer").Start();
 		GetNode<Timer>("ScoreTimer").Start();
+		GetNode<Timer>("BossTimer").Start();
 		firingDisabled = false;
 		firingCooldownActive = false;
 	}
@@ -140,6 +142,8 @@ public partial class main : Node
 		GetNode<CanvasLayer>("HUD").Show();
 		var energyProgressBar = GetNode<CanvasLayer>("HUD").GetNode<Control>("Container").GetNode<ProgressBar>("ProgressBar");
 		energyProgressBar.Show();
+		GetTree().Paused = false;
+		firingDisabled = false;
 	}
 
 	private void _on_pause_menu_restart()
@@ -243,6 +247,7 @@ public partial class main : Node
 	private void OnPlayerHit()
 	{
 		GetNode<hud>("HUD").UpdateLives(--livesLeft);
+		GetNode<AudioStreamPlayer>("Collision").Play();
 		firingDisabled = true;
 		if (livesLeft == 0)
 		{
@@ -255,29 +260,16 @@ public partial class main : Node
 	{
 		firingDisabled = false;
 	}
-
-	private void MoveBoss(float delta) 
-	{
-		// var boss = GetNode<EnemyBoss>("EnemyBoss");
-		// var bossMovementPath = GetNode<PathFollow2D>("BossPath/PathFollow2D");
-		// bossMovementPath.ProgressRatio += delta * 0.025f;
-
-		// // Rotate the asteroid towards the players direction
-		// float direction = Mathf.Pi;
-
-		// boss.Position = new Vector2(bossMovementPath.Position.X, bossMovementPath.Position.Y);
-
-		//direction += (float)GD.RandRange(-Mathf.Pi / 16, Mathf.Pi / 16);
-		//boss.Rotation += direction;
-	}
 	
 	private void OnFiringCooldownTimeout()
 	{
+		if (!bossEnemyIsActive)
+			return;
 		EnemyLazer enemyLazer1 = EnemyProjectileScene.Instantiate<EnemyLazer>();
 		EnemyLazer enemyLazer2 = EnemyProjectileScene.Instantiate<EnemyLazer>();
 
-		var projectileSpawnLocation1 = GetNode<Area2D>("EnemyBoss").Position + new Vector2(-54, 28);
-		var projectileSpawnLocation2 = GetNode<Area2D>("EnemyBoss").Position + new Vector2(-54, -28);
+		var projectileSpawnLocation1 = GetNode<Area2D>("EnemyBoss").Position + new Vector2(-81, 42);
+		var projectileSpawnLocation2 = GetNode<Area2D>("EnemyBoss").Position + new Vector2(-81, -42);
 
 		enemyLazer1.Position = projectileSpawnLocation1;
 		enemyLazer2.Position = projectileSpawnLocation2;
@@ -293,5 +285,13 @@ public partial class main : Node
 	{
 		bossEnemyIsActive = false;
 		GetNode<Timer>("FiringCooldown").Stop();
+	}
+	
+	private void OnBossTimerTimeout()
+	{
+		bossEnemyIsActive = true;
+		GetNode<Timer>("FiringCooldown").Start();
+		var bossEnemy = GetNode<EnemyBoss>("EnemyBoss");
+		bossEnemy.BossIsActive = true;
 	}
 }
