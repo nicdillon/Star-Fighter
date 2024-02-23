@@ -25,4 +25,12 @@ public partial class mob : RigidBody2D
 	{
 		QueueFree();
 	}
+
+	private void HitAsteroid(string projectileType)
+	{
+		if (projectileType == "basicLazer")
+		{
+			QueueFree();
+		}
+	}
 }

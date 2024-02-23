@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://bg27kgec13v4r"]
+[gd_scene load_steps=65 format=3 uid="uid://bg27kgec13v4r"]
 
 [ext_resource type="Texture2D" uid="uid://byaf3ox6y2xxx" path="res://art/Corvette/Damage.png" id="1_dieyh"]
 [ext_resource type="Script" path="res://EnemyBoss.cs" id="1_xh8ou"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://rxtv05dd0hks" path="res://art/Corvette/Destroyed1.png" id="3_7yslt"]
 [ext_resource type="Texture2D" uid="uid://b6qwck6jexre1" path="res://art/Corvette/Attack_1_1.png" id="4_q123u"]
 [ext_resource type="AudioStream" uid="uid://c2vdnjxevhpt3" path="res://sounds/EnemyExplosion.wav" id="6_ose55"]
+[ext_resource type="Texture2D" uid="uid://cm2475opkwaab" path="res://art/14.png" id="7_aso5o"]
+[ext_resource type="AudioStream" uid="uid://b3keih4da1hyv" path="res://sounds/TeleportSound.wav" id="8_syb4q"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e5ver"]
 atlas = ExtResource("1_dieyh")
@@ -323,6 +325,91 @@ bg_color = Color(0.129412, 0.129412, 0.129412, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ft4cf"]
 bg_color = Color(1, 0.0784314, 0.0823529, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_tylcy"]
+atlas = ExtResource("7_aso5o")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhmqe"]
+atlas = ExtResource("7_aso5o")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x6pey"]
+atlas = ExtResource("7_aso5o")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8lc8n"]
+atlas = ExtResource("7_aso5o")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7j0e3"]
+atlas = ExtResource("7_aso5o")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qxfju"]
+atlas = ExtResource("7_aso5o")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qdgm1"]
+atlas = ExtResource("7_aso5o")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rcakb"]
+atlas = ExtResource("7_aso5o")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kao4j"]
+atlas = ExtResource("7_aso5o")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_83xvu"]
+atlas = ExtResource("7_aso5o")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y8r47"]
+atlas = ExtResource("7_aso5o")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o4304"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tylcy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhmqe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x6pey")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8lc8n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7j0e3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qxfju")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qdgm1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rcakb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kao4j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_83xvu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y8r47")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
 [node name="EnemyBoss" type="Area2D"]
 process_mode = 1
 rotation = 3.14159
@@ -330,16 +417,16 @@ scale = Vector2(1.5, 1.5)
 script = ExtResource("1_xh8ou")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
 sprite_frames = SubResource("SpriteFrames_2pmga")
-animation = &"shooting"
-frame = 3
-frame_progress = 0.914469
+animation = &"destroyed"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-visible = false
 polygon = PackedVector2Array(84, 24, 88, 21, 91, 17, 94, 9.99999, 94, -9.00001, 91, -17, 84, -25, 59, -25, 59, -31, 41, -33, 22, -33, -2.88495e-06, -33, -3.49691e-06, -40, -8, -47, -15, -48, -43, -48, -69, -46, -76, -42, -75, 45, -68, 46, -44, 48, -15, 48, -9, 46, -0.999996, 41, 3.23464e-06, 37, 2.97237e-06, 34, 24, 34, 39, 34, 59, 31, 59, 27, 83, 25)
 
 [node name="HealthBar" type="ProgressBar" parent="."]
+visible = false
+modulate = Color(0.8, 0.8, 0.8, 1)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -365,5 +452,23 @@ stream = ExtResource("6_ose55")
 volume_db = 1.0
 pitch_scale = 0.75
 
+[node name="Teleport" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(0.901961, 2, 3.39608, 1)
+position = Vector2(1.19209e-07, 0)
+rotation = 1.5708
+scale = Vector2(6, 6)
+sprite_frames = SubResource("SpriteFrames_o4304")
+frame_progress = 0.979164
+
+[node name="TeleportSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_syb4q")
+
+[node name="BossActivationTimer" type="Timer" parent="."]
+process_mode = 1
+one_shot = true
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="OnAnimationFinished"]
 [connection signal="animation_looped" from="AnimatedSprite2D" to="." method="OnAnimationLooped"]
+[connection signal="animation_looped" from="Teleport" to="." method="OnTeleportAnimationLooped"]
+[connection signal="timeout" from="BossActivationTimer" to="." method="OnBossActivationTimeout"]

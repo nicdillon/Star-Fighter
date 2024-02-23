@@ -10,6 +10,7 @@ public partial class hud : CanvasLayer
 	
 	private Color energyColor = new(0, 170, 208, 255);
 	private Color hotEnergyColor = new(255, 0, 0, 255);
+	private float time = 0.0f;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -19,8 +20,14 @@ public partial class hud : CanvasLayer
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		//time += 20.667f * (float)delta;
+
 		var energyProgressBar = GetNode<Control>("Container").GetNode<ProgressBar>("ProgressBar");
 		energyProgressBar.Value -= 5 * delta;
+
+		var dodgeCooldown = GetNode<Control>("Container").GetNode<TextureProgressBar>("DodgeCooldown");
+		if (dodgeCooldown.Value < 100)
+			dodgeCooldown.Value += (float)delta * 34.0f;
 		
 		if (energyProgressBar.Value <= 75)
 		{

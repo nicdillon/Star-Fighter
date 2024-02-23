@@ -10,7 +10,7 @@ public partial class EnemyBoss : Area2D
 	public float PathWidth = 150;
 	public bool BossIsActive = false;
 
-	private int health = 100;
+	private float health = 100;
 	private float speed = 0.3f;
 	private float time = 0.0f;
 	private Vector2 screenSize;
@@ -41,6 +41,15 @@ public partial class EnemyBoss : Area2D
 		if (projectileType == "basicLazer")
 		{
 			health -= 10;
+			GetNode<ProgressBar>("HealthBar").Value = health;
+			if (health <= 0)
+			{
+				Explode();
+			}
+		}
+		if (projectileType == "beamWeapon")
+		{
+			health -= 0.1f;
 			GetNode<ProgressBar>("HealthBar").Value = health;
 			if (health <= 0)
 			{
@@ -99,4 +108,18 @@ public partial class EnemyBoss : Area2D
 			return;
 		}
 	}
+
+	private void OnTeleportAnimationLooped()
+	{
+		GetNode<AnimatedSprite2D>("Teleport").Stop();
+		GetNode<AnimatedSprite2D>("Teleport").Hide();
+	}
+
+	private void OnBossActivationTimeout()
+	{
+		BossIsActive = true;
+		GetNode<AnimatedSprite2D>("AnimatedSprite2D").Show();
+		GetNode<ProgressBar>("HealthBar").Show();
+	}
 }
+

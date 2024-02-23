@@ -1,5 +1,8 @@
+using System.Threading.Tasks.Dataflow;
 using System.Reflection.Metadata.Ecma335;
 using Godot;
+using System;
+using System.Threading.Tasks;
 
 public partial class main : Node
 {
@@ -26,10 +29,6 @@ public partial class main : Node
 	{
 		// skip this method
 		//NewGame();
-		if (bossEnemyIsActive)
-		{
-			GetNode<Timer>("FiringCooldown").Start();
-		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -61,8 +60,11 @@ public partial class main : Node
 		GetNode<Area2D>("Player").Hide();
 		GetNode<Timer>("MobTimer").Stop();
 		GetNode<Timer>("ScoreTimer").Stop();
+		GetNode<Timer>("FiringCooldown").Stop();
 		GetNode<AudioStreamPlayer>("Music").Stop();
 		GetNode<AudioStreamPlayer>("DeathSound").Play();
+		bossEnemyIsActive = false;
+
 		firingDisabled = true;
 
 		GetNode<hud>("HUD").ShowGameOver();
@@ -92,7 +94,6 @@ public partial class main : Node
 		energyProgressBar.Show();
 		energyProgressBar.Value = 0;
 		firingCooldownActive = false;
-		
 	}
 
 	private void _on_mob_timer_timeout()
@@ -263,6 +264,7 @@ public partial class main : Node
 	
 	private void OnFiringCooldownTimeout()
 	{
+		GetNode<Timer>("FiringCooldown").WaitTime = GD.RandRange(0.25f, 1.75f);
 		if (!bossEnemyIsActive)
 			return;
 		EnemyLazer enemyLazer1 = EnemyProjectileScene.Instantiate<EnemyLazer>();
@@ -287,11 +289,22 @@ public partial class main : Node
 		GetNode<Timer>("FiringCooldown").Stop();
 	}
 	
-	private void OnBossTimerTimeout()
+	private async void OnBossTimerTimeout()
 	{
+		var bossEnemy = GetNode<EnemyBoss>("EnemyBoss");
+		bossEnemy.Show();
+		bossEnemy.GetNode<AnimatedSprite2D>("Teleport").Show();
+		bossEnemy.GetNode<AnimatedSprite2D>("Teleport").Play("default");
+		bossEnemy.GetNode<AudioStreamPlayer2D>("TeleportSound").Play();
+		bossEnemy.GetNode<Timer>("BossActivationTimer").Start();
+
+		await Task.Delay(TimeSpan.FromMilliseconds(1000));
 		bossEnemyIsActive = true;
 		GetNode<Timer>("FiringCooldown").Start();
-		var bossEnemy = GetNode<EnemyBoss>("EnemyBoss");
-		bossEnemy.BossIsActive = true;
+	}
+
+	private void OnDodgeCooldownActivated()
+	{
+		GetNode<TextureProgressBar>("HUD/Container/DodgeCooldown").Value = 0;
 	}
 }
