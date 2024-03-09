@@ -395,6 +395,7 @@ stream = ExtResource("9_u6jt1")
 
 [node name="BeamWeapon" type="RayCast2D" parent="."]
 process_mode = 1
+visible = false
 modulate = Color(0.52549, 1, 0.996078, 1)
 position = Vector2(3, 0)
 rotation = 4.71239

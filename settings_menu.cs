@@ -20,4 +20,9 @@ public partial class settings_menu : CanvasLayer
 		if (index == 1)
 			GetWindow().Size = new Vector2I(2560, 1080);
 	}
+
+	// private void OnSoundMuteToggle(bool toggled_on)
+	// {
+	// 	var bus = GetNode<AudioBusLayout>("AudioServer").GetBusIndex("Master");
+	// }
 }

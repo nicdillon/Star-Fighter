@@ -31,14 +31,14 @@ public partial class BeamWeapon : RayCast2D
 
 	public override void _Input(InputEvent @event)
 	{
-		if (@event.IsActionPressed("secondary_fire"))
-		{
-			SetIsCasting(true);
-		}
-		if (@event.IsActionReleased("secondary_fire"))
-		{
-			SetIsCasting(false);
-		}
+		// if (@event.IsActionPressed("secondary_fire"))
+		// {
+		// 	SetIsCasting(true);
+		// }
+		// if (@event.IsActionReleased("secondary_fire"))
+		// {
+		// 	SetIsCasting(false);
+		// }
 	}
 
 	public override void _PhysicsProcess(double delta)

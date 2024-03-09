@@ -120,6 +120,9 @@ public partial class EnemyBoss : Area2D
 		BossIsActive = true;
 		GetNode<AnimatedSprite2D>("AnimatedSprite2D").Show();
 		GetNode<ProgressBar>("HealthBar").Show();
+		health = 100;
+		GetNode<ProgressBar>("HealthBar").Value = health;
+		GetNode<CollisionPolygon2D>("CollisionPolygon2D").SetDeferred(CollisionPolygon2D.PropertyName.Disabled, false);
 	}
 }
 

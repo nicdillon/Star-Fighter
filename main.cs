@@ -1,5 +1,3 @@
-using System.Threading.Tasks.Dataflow;
-using System.Reflection.Metadata.Ecma335;
 using Godot;
 using System;
 using System.Threading.Tasks;
@@ -27,16 +25,15 @@ public partial class main : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		// skip this method
-		//NewGame();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (GetTree().Paused == true)
+			return;
 		time += 20f * (float)delta;
 		GetNode<ParallaxBackground>("ParallaxBackground").Offset = new Vector2(-time, 0.0f);
-		//GetNode<ParallaxLayer>("ParallaxLayer2").MotionOffset = new Vector2(2 * -time, 0.0f);
 		GetNode<ParallaxBackground>("ParallaxBackground").ScrollBaseOffset = new Vector2(-time, 0.0f);
 	}
 
@@ -91,7 +88,7 @@ public partial class main : Node
 		GetNode<Timer>("StartTimer").Start();
 		firingDisabled = true;
 		var energyProgressBar = GetNode<CanvasLayer>("HUD").GetNode<Control>("Container").GetNode<ProgressBar>("ProgressBar");
-		energyProgressBar.Show();
+		GetNode<CanvasLayer>("HUD").GetNode<Control>("Container").Show();
 		energyProgressBar.Value = 0;
 		firingCooldownActive = false;
 	}
@@ -167,12 +164,12 @@ public partial class main : Node
 
 	private void PauseButtonPressed()
 	{
-		var energyProgressBar = GetNode<CanvasLayer>("HUD").GetNode<Control>("Container").GetNode<ProgressBar>("ProgressBar");
-
+		var playerUI = GetNode<CanvasLayer>("HUD").GetNode<Control>("Container");
 		if (GetTree().Paused == false)
 		{
 			GetTree().Paused = true;
-			energyProgressBar.Hide();
+			playerUI.Hide();
+			GetNode<AudioStreamPlayer>("Music").StreamPaused = true;
 		}
 			
 
@@ -181,15 +178,18 @@ public partial class main : Node
 			case "main":
 				currentScreen = "pause";
 				GetNode<CanvasLayer>("PauseMenu").Show();
+				playerUI.Hide();
 				firingDisabled = true;
+				GetNode<CanvasLayer>("HUD").Hide();
 				return;
 			case "pause":
 				currentScreen = "main";
-				GetNode<CanvasLayer>("HUD").Hide();
 				GetNode<CanvasLayer>("PauseMenu").Hide();
 				GetTree().Paused = false;
 				firingDisabled = false;
-				energyProgressBar.Show();
+				playerUI.Show();
+				GetNode<CanvasLayer>("HUD").Show();
+				GetNode<AudioStreamPlayer>("Music").StreamPaused = false;
 				return;
 			case "settings":
 				currentScreen = "pause";
@@ -306,5 +306,10 @@ public partial class main : Node
 	private void OnDodgeCooldownActivated()
 	{
 		GetNode<TextureProgressBar>("HUD/Container/DodgeCooldown").Value = 0;
+	}
+
+	private void OnDialogueTimerTimeout()
+	{
+		GetTree().Paused = true;
 	}
 }

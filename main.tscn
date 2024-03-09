@@ -48,6 +48,7 @@ EnemyProjectileScene = ExtResource("4_8s225")
 environment = SubResource("Environment_5k18x")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+process_mode = 1
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(0.5, 0.5)
@@ -95,6 +96,7 @@ wait_time = 2.0
 one_shot = true
 
 [node name="FiringCooldown" type="Timer" parent="."]
+process_mode = 1
 
 [node name="StartPosition" type="Marker2D" parent="."]
 position = Vector2(960, 512)
@@ -173,6 +175,8 @@ process_mode = 1
 wait_time = 2.0
 one_shot = true
 
+[node name="DialogueTimer" type="Timer" parent="."]
+
 [connection signal="DodgeCooldownActivated" from="Player" to="." method="OnDodgeCooldownActivated"]
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="HitTimerTimeout" from="Player" to="." method="OnPlayerHitTimerTimeout"]
@@ -188,3 +192,4 @@ one_shot = true
 [connection signal="ResumeGame" from="PauseMenu" to="." method="_on_pause_menu_resume_game"]
 [connection signal="Settings" from="PauseMenu" to="." method="_on_pause_menu_settings"]
 [connection signal="timeout" from="BossTimer" to="." method="OnBossTimerTimeout"]
+[connection signal="timeout" from="DialogueTimer" to="." method="OnDialogueTimerTimeout"]
