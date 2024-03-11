@@ -107,13 +107,6 @@ offset_right = 1936.0
 offset_bottom = 688.0
 texture = ExtResource("14_wbs7e")
 
-[connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
-[connection signal="HitTimerTimeout" from="Player" to="." method="OnPlayerHitTimerTimeout"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
-[connection signal="HitAsteroid" from="Lazer" to="." method="OnLazerHitAsteriod"]
-[connection signal="StartGame" from="HUD" to="." method="NewGame"]
-[connection signal="Restart" from="PauseMenu" to="." method="_on_pause_menu_restart"]
-[connection signal="ResumeGame" from="PauseMenu" to="." method="_on_pause_menu_resume_game"]
-[connection signal="Settings" from="PauseMenu" to="." method="_on_pause_menu_settings"]

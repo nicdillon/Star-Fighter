@@ -1,0 +1,15 @@
+{
+    "Missions": [
+        {
+            "MissionTitle": "Training",
+            "Dialog": [
+                "Hello, Pilot! Welcome to your first non-virtual flight session. Let's get started!",
+                "To begin, let's make sure your ship is ready to fly. Press the 'D' key to accelerate forward.",
+                "Nicely done! Now, press the 'A' key to decelerate.",
+                "Look's like your thrusters are in working order. Next, let's test your ship's turning capabilities. Press the 'W' key to turn left and the 'S' key to turn right.",
+                "Perfect! Directional thrusters are all green. Now, let's test your ship's weapons. Press the left mouse button to fire your primary weapon.",
+                "Primary weapon looking armed and dangerous! You're cleared to enter the asteriod field ahead. Make sure to dodge or destory the asteriods in your path. You've got no idea how expensive your ship is to repair. Good luck!"
+            ]
+        }
+    ]
+}

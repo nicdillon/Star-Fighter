@@ -1,4 +1,3 @@
-using System.Reflection.Metadata.Ecma335;
 using Godot;
 
 public partial class main : Node
@@ -118,10 +117,12 @@ public partial class main : Node
 
 	private void _on_start_timer_timeout()
 	{
-		GetNode<Timer>("MobTimer").Start();
-		GetNode<Timer>("ScoreTimer").Start();
-		firingDisabled = false;
-		firingCooldownActive = false;
+		// GetNode<Timer>("MobTimer").Start();
+		// GetNode<Timer>("ScoreTimer").Start();
+		// firingDisabled = false;
+		// firingCooldownActive = false;
+		GetNode<DialogueScene>("DialogueScene").Show();
+		
 	}
 
 	private void _on_pause_menu_resume_game()
