@@ -1,8 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://clhwb0cimvqkp"]
+[gd_scene load_steps=4 format=3 uid="uid://clhwb0cimvqkp"]
 
 [ext_resource type="Texture2D" uid="uid://bx7q7hnipwhu4" path="res://art/LaurenSpaceCommand.png" id="1_6m3a4"]
+[ext_resource type="Script" path="res://DialogueScene.cs" id="1_nj5jt"]
+[ext_resource type="FontFile" uid="uid://wmnaspvxv45k" path="res://fonts/Xolonium-Regular.ttf" id="3_1yhsh"]
 
 [node name="DialogueScene" type="CanvasLayer"]
+script = ExtResource("1_nj5jt")
 
 [node name="CharacterPotrait" type="TextureRect" parent="."]
 anchors_preset = 3
@@ -16,3 +19,13 @@ grow_horizontal = 0
 grow_vertical = 0
 texture = ExtResource("1_6m3a4")
 expand_mode = 1
+
+[node name="DialogLabel" type="Label" parent="."]
+offset_left = 498.0
+offset_top = 882.0
+offset_right = 1671.0
+offset_bottom = 1065.0
+theme_override_fonts/font = ExtResource("3_1yhsh")
+theme_override_font_sizes/font_size = 40
+text = "Hello, Pilot! Welcome to your first non-virtual flight session. Let's get started!"
+autowrap_mode = 3
