@@ -6,12 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://byk4w87vgdbil" path="res://art/space_background.jpg" id="3_hehig"]
 [ext_resource type="PackedScene" uid="uid://dueebi8mxb37x" path="res://pause_menu.tscn" id="3_vxkd5"]
 [ext_resource type="PackedScene" uid="uid://dom2lpge16lbn" path="res://lazer.tscn" id="3_ws4rb"]
-[ext_resource type="PackedScene" uid="uid://d88yc76uddsb" path="res://EnemyLazer.tscn" id="4_8s225"]
+[ext_resource type="PackedScene" path="res://EnemyLazer.tscn" id="4_8s225"]
 [ext_resource type="PackedScene" uid="uid://b8a868vi3o1ng" path="res://hud.tscn" id="4_j0jiw"]
 [ext_resource type="Script" path="res://MobPath.cs" id="5_8wkmi"]
 [ext_resource type="AudioStream" uid="uid://dw4nisne162a2" path="res://art/gameover.wav" id="5_d3n4c"]
 [ext_resource type="Texture2D" uid="uid://wlpbbttljd73" path="res://art/starfield_background.png" id="5_ig2ws"]
-[ext_resource type="PackedScene" uid="uid://bg27kgec13v4r" path="res://EnemyBoss.tscn" id="6_dl64u"]
+[ext_resource type="PackedScene" path="res://EnemyBoss.tscn" id="6_dl64u"]
 [ext_resource type="PackedScene" uid="uid://clhwb0cimvqkp" path="res://dialogue_scene.tscn" id="6_nymy4"]
 [ext_resource type="Texture2D" uid="uid://csfyvf5bhuaxt" path="res://art/asteriod_background.png" id="6_v0pc8"]
 [ext_resource type="PackedScene" uid="uid://te3omna6qvbe" path="res://settings_menu.tscn" id="9_t2omy"]
@@ -42,7 +42,6 @@ process_mode = 3
 script = ExtResource("1_8pefi")
 MobScene = ExtResource("2_ttmnx")
 ProjectileScene = ExtResource("3_ws4rb")
-EnemyProjectileScene = ExtResource("4_8s225")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_5k18x")
@@ -177,16 +176,13 @@ one_shot = true
 
 [node name="DialogueTimer" type="Timer" parent="."]
 
-[connection signal="DodgeCooldownActivated" from="Player" to="." method="OnDodgeCooldownActivated"]
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="HitTimerTimeout" from="Player" to="." method="OnPlayerHitTimerTimeout"]
-[connection signal="BossDestroyed" from="EnemyBoss" to="." method="OnBossDestroyed"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
 [connection signal="timeout" from="FiringCooldown" to="." method="OnFiringCooldownTimeout"]
 [connection signal="HitAsteroid" from="Lazer" to="." method="OnLazerHitAsteriod"]
-[connection signal="HitAsteroid" from="EnemyLazer" to="." method="OnLazerHitAsteriod"]
 [connection signal="StartGame" from="HUD" to="." method="NewGame"]
 [connection signal="Restart" from="PauseMenu" to="." method="_on_pause_menu_restart"]
 [connection signal="ResumeGame" from="PauseMenu" to="." method="_on_pause_menu_resume_game"]
