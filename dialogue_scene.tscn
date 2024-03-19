@@ -25,7 +25,7 @@ texture = ExtResource("1_6m3a4")
 expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="."]
-offset_left = 1660.0
+offset_left = 1664.0
 offset_top = 824.0
 offset_right = 1921.0
 offset_bottom = 1083.0
@@ -64,7 +64,7 @@ theme_override_fonts/font = ExtResource("3_1yhsh")
 theme_override_font_sizes/font_size = 40
 text = "Hello, Pilot! Welcome to your first non-virtual flight session. Let's get started!
 
-Press \"E\" key to continue..."
+Press the 'E' key to continue..."
 label_settings = SubResource("LabelSettings_fy48g")
 autowrap_mode = 3
 
