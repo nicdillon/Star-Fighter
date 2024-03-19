@@ -412,6 +412,7 @@ animations = [{
 
 [node name="EnemyBoss" type="Area2D"]
 process_mode = 1
+visible = false
 rotation = 3.14159
 scale = Vector2(1.5, 1.5)
 script = ExtResource("1_xh8ou")

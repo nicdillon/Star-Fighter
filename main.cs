@@ -19,6 +19,8 @@ public partial class main : Node
 	private int livesLeft = 3;
 	private bool bossEnemyIsActive = false;
 	private float time = 0.0f;
+	
+	private bool isDialogInteractionActive = false;
 
 	private int score;
 
@@ -130,8 +132,7 @@ public partial class main : Node
 		// GetNode<Timer>("ScoreTimer").Start();
 		// firingDisabled = false;
 		// firingCooldownActive = false;
-		GetNode<DialogueScene>("DialogueScene").Show();
-		
+		GetNode<Timer>("DialogueTimer").Start();
 	}
 
 	private void _on_pause_menu_resume_game()
@@ -312,5 +313,6 @@ public partial class main : Node
 	private void OnDialogueTimerTimeout()
 	{
 		GetTree().Paused = true;
+		GetNode<DialogueScene>("DialogueScene").Show();
 	}
 }
