@@ -11,7 +11,7 @@ font_size = 30
 [node name="DialogueScene" type="CanvasLayer"]
 script = ExtResource("1_nj5jt")
 
-[node name="CharacterPotrait" type="TextureRect" parent="."]
+[node name="CharacterPortrait" type="TextureRect" parent="."]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -22,6 +22,14 @@ offset_top = -256.0
 grow_horizontal = 0
 grow_vertical = 0
 texture = ExtResource("1_6m3a4")
+expand_mode = 1
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 1660.0
+offset_top = 824.0
+offset_right = 1921.0
+offset_bottom = 1083.0
+texture = ExtResource("4_ft8hw")
 expand_mode = 1
 
 [node name="Container" type="Control" parent="."]

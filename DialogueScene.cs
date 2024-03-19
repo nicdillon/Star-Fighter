@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Text.Json;
 
 public partial class DialogueScene : CanvasLayer
@@ -22,14 +23,31 @@ public partial class DialogueScene : CanvasLayer
 
 	}
 
+	public void DisplayNextText()
+	{
+		Index++;
+		SelectTextToDisplay();
+	}
+
 	public void SelectTextToDisplay() 
 	{
 		var currentDialog = MissionsText.RetrieveMissionDialog(MissionIndex, Index);
 		DisplayText(currentDialog);
 	}
 
-	public void DisplayText(string text) 
+	public void DisplayText(Dialog dialog) 
 	{
-		GetNode<Label>("DialogLabel").Text = text;
+		GetNode<Label>("Container/DialogLabel").Text = dialog.Text;
 	}
+
+	public string GetCurrentPrompt()
+	{
+		return MissionsText.RetrieveMissionDialog(MissionIndex, Index).Prompt;
+	}
+
+	public bool IsLastText()
+	{
+		return Index == MissionsText.Missions[MissionIndex].Dialog.Length - 1;
+	}
+
 }

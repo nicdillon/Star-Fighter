@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://byk4w87vgdbil" path="res://art/space_background.jpg" id="3_hehig"]
 [ext_resource type="PackedScene" uid="uid://dueebi8mxb37x" path="res://pause_menu.tscn" id="3_vxkd5"]
 [ext_resource type="PackedScene" uid="uid://dom2lpge16lbn" path="res://lazer.tscn" id="3_ws4rb"]
-[ext_resource type="PackedScene" uid="uid://d88yc76uddsb" path="res://EnemyLazer.tscn" id="4_8s225"]
+[ext_resource type="PackedScene" path="res://EnemyLazer.tscn" id="4_8s225"]
 [ext_resource type="PackedScene" uid="uid://b8a868vi3o1ng" path="res://hud.tscn" id="4_j0jiw"]
 [ext_resource type="Script" path="res://MobPath.cs" id="5_8wkmi"]
 [ext_resource type="AudioStream" uid="uid://dw4nisne162a2" path="res://art/gameover.wav" id="5_d3n4c"]

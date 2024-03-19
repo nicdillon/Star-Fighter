@@ -23,6 +23,7 @@ public partial class main : Node
 	private bool isDialogInteractionActive = false;
 
 	private int score;
+	private string dialogPrompt = "interact";
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -41,6 +42,24 @@ public partial class main : Node
 
 	public override void _Input(InputEvent @event)
 	{
+		if (@event.IsActionPressed(dialogPrompt))
+		{
+			if (GetNode<DialogueScene>("DialogueScene").IsLastText() == true)
+			{
+				GetNode<DialogueScene>("DialogueScene").MissionIndex++;
+				GetNode<DialogueScene>("DialogueScene").Hide();
+				GetNode<Timer>("DialogueTimer").Stop();
+				GetTree().Paused = false;
+				dialogPrompt = "";
+				StartMission();
+				return;
+			}
+				
+			OnDialogueSceneDialogEnded();
+			GetNode<DialogueScene>("DialogueScene").DisplayNextText();
+			SetDialogPrompt();
+			GetNode<Timer>("DialogueTimer").Start();
+		}
 		if (@event.IsActionPressed("pause"))
 		{
 			PauseButtonPressed();
@@ -51,6 +70,11 @@ public partial class main : Node
 				return;
 			ShootLazer();
 		}
+	}
+
+	private void StartMission()
+	{
+		GetNode<Timer>("MobTimer").Start();
 	}
 
 	private void game_over()
@@ -128,10 +152,9 @@ public partial class main : Node
 
 	private void _on_start_timer_timeout()
 	{
-		// GetNode<Timer>("MobTimer").Start();
 		// GetNode<Timer>("ScoreTimer").Start();
-		// firingDisabled = false;
-		// firingCooldownActive = false;
+		firingDisabled = false;
+		firingCooldownActive = false;
 		GetNode<Timer>("DialogueTimer").Start();
 	}
 
@@ -226,7 +249,6 @@ public partial class main : Node
 			firingCooldownActive = true;
 			energyProgressBar.GetThemeStylebox("fill").Set("border_color", new Color(1.0f, 0.25f, 0.25f));
 		}
-			
 	}
 
 	private void OnLazerHitAsteriod()
@@ -258,7 +280,6 @@ public partial class main : Node
 		}
 	}
 
-	
 	private void OnPlayerHitTimerTimeout()
 	{
 		firingDisabled = false;
@@ -314,5 +335,18 @@ public partial class main : Node
 	{
 		GetTree().Paused = true;
 		GetNode<DialogueScene>("DialogueScene").Show();
+	}
+
+	private void OnDialogueSceneDialogEnded()
+	{
+		GetNode<DialogueScene>("DialogueScene").Hide();
+		GetTree().Paused = false;
+		SetDialogPrompt();
+	}
+
+	private void SetDialogPrompt()
+	{
+		var prompt = GetNode<DialogueScene>("DialogueScene").GetCurrentPrompt();
+		dialogPrompt = prompt;
 	}
 }
