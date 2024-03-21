@@ -104,8 +104,9 @@ public partial class main : Node
 
 		GetNode<AudioStreamPlayer>("Music").Play();
 		var hud = GetNode<hud>("HUD");
-		hud.UpdateScore(score);
-		hud.ShowMessage("Get Ready!");
+		//hud.UpdateScore(score);
+		//hud.ShowMessage("Get Ready!");
+		hud.GetNode<Label>("Message").Hide();
 		hud.UpdateLives(livesLeft);
 
 		var player = GetNode<player>("Player");

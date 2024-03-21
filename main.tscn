@@ -175,7 +175,6 @@ wait_time = 10.0
 one_shot = true
 
 [node name="DialogueTimer" type="Timer" parent="."]
-wait_time = 3.0
 
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="HitTimerTimeout" from="Player" to="." method="OnPlayerHitTimerTimeout"]
