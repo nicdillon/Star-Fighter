@@ -2,17 +2,25 @@
     "Missions": [
         {
             "MissionTitle": "Training",
-            "Dialog": [
-                {"Text": "Hello, Pilot! Welcome to your first non-virtual flight session. Let's get started!", "Prompt": "interact"},
-                {"Text": "To begin, let's make sure your ship is ready to fly. Press the 'D' key to accelerate forward.", "Prompt": "move_right"},
-                {"Text": "Nicely done! Now, press the 'A' key to decelerate.", "Prompt": "move_left"},
-                {"Text": "Look's like your thrusters are in working order. Next, let's test your ship's turning capabilities. Press the 'W' key to turn left", "Prompt": "move_up"},
-                {"Text": "Good. Now let's try turning right. Press the 'S' key to turn right.", "Prompt": "move_down"},
-                {"Text": "Directional thrusters are all green. Your ship has built-in evasive maneuvers. Let's make sure those are functioning. Press the 'Shift' key to execute a dodge.", "Prompt": "shift"},
-                {"Text": "Evasive Maneuver complete. The dodge system takes a few seconds to charge between uses, so make sure you move to a safe space before you dodge maneuver completes./nPress 'E' to continue...", "Prompt": "interact"},
-                {"Text": "Now, let's test your ship's weapons. Press the left mouse button to fire your primary weapon.", "Prompt": "left_click"},
-                {"Text": "Primary weapon looking armed and dangerous!. Keep in mind that your weapons will overheat if fired too quickly. Once that happens they will need to cooldown before being fired again.\nPress 'E' to continue...", "Prompt": "interact"},
-                {"Text": "All systems are go! You're cleared to enter the asteriod field ahead. Make sure to dodge or destory the asteriods in your path. You've got no idea how expensive your ship is to repair. Good luck! \nPress 'E' to contine...", "Prompt": "interact"}
+            "Intro": [
+                {"Text": "Hello, Pilot! Welcome to your first non-virtual flight session. Let's get started!", "Prompt": "interact", "Timer": 1},
+                {"Text": "Nicely done! Now, press the 'A' key to decelerate.", "Prompt": "move_left", "Timer": 1},
+                {"Text": "Look's like your thrusters are in working order. Next, let's test your ship's turning capabilities. Press the 'W' key to turn left", "Prompt": "move_up", "Timer": 1},
+                {"Text": "Good. Now let's try turning right. Press the 'S' key to turn right.", "Prompt": "move_down", "Timer": 1},
+                {"Text": "Directional thrusters are all green. Your ship has built-in evasive maneuvers. Let's make sure those are functioning. Press the 'Shift' key to execute a dodge.", "Prompt": "shift", "Timer": 3},
+                {"Text": "Evasive Maneuver complete. The dodge system takes a few seconds to charge between uses, so make sure you move to a safe space before you dodge maneuver completes.\nPress 'E' to continue...", "Prompt": "interact", "Timer": 1},
+                {"Text": "Now, let's test your ship's weapons. Press the 'left mouse button' to fire your primary weapon.", "Prompt": "left_click", "Timer": 1},
+                {"Text": "Primary weapon looking armed and dangerous!. Keep in mind that your weapons will overheat if fired too quickly. Once that happens they will need to cooldown before being fired again.\nPress 'E' to continue...", "Prompt": "interact", "Timer": 1},
+                {"Text": "All systems are go! You're cleared to enter the asteriod field ahead. Make sure to dodge or destory the asteriods in your path. You've got no idea how expensive your ship is to repair. Good luck! \nPress 'E' to contine...", "Prompt": "interact", "Timer": 1}
+            ],
+            "Encounter":
+            [
+                {"Text": "Pilot, we've detected a opening in slip-space. Expect a strong enemy any second.\n\n'E'...", "Prompt": "interact", "Timer": 1},
+                {"Text": "AGH! Damn it! You've not seen the last of us, pilot.\n\n'E'...", "Prompt": "interact", "Timer": 3},
+                {"Text": "Enemy ship destroyed. We shouldn't stick around for his buddies to show up. Let's head home, pilot.\n\n'E'...", "Prompt": "interact", "Timer": 1}
+            ],
+            "Outro": [
+                {"Text": "After testing your ship's sytems, you were ambushed by an aggressive combatant. You managed to defeat him, but he made it clear he wasn't the only ship you'd face. Time to head back and rearm for your next mission.\n\n'E'...", "Prompt": "interact", "Timer": 1}
             ]
         }
     ]

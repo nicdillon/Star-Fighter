@@ -57,7 +57,9 @@ public partial class main : Node
 				
 			OnDialogueSceneDialogEnded();
 			GetNode<DialogueScene>("DialogueScene").DisplayNextText();
+			var timer = GetNode<DialogueScene>("DialogueScene").GetCurrentTimer();
 			SetDialogPrompt();
+			GetNode<Timer>("DialogueTimer").WaitTime = timer;
 			GetNode<Timer>("DialogueTimer").Start();
 		}
 		if (@event.IsActionPressed("pause"))
@@ -75,6 +77,7 @@ public partial class main : Node
 	private void StartMission()
 	{
 		GetNode<Timer>("MobTimer").Start();
+		GetNode<Timer>("BossTimer").Start();
 	}
 
 	private void game_over()
@@ -87,9 +90,7 @@ public partial class main : Node
 		GetNode<AudioStreamPlayer>("Music").Stop();
 		GetNode<AudioStreamPlayer>("DeathSound").Play();
 		bossEnemyIsActive = false;
-
-		firingDisabled = true;
-
+		GetNode<DialogueScene>("DialogueScene").Index = 0;
 		GetNode<hud>("HUD").ShowGameOver();
 	}
 
@@ -117,6 +118,7 @@ public partial class main : Node
 		GetNode<CanvasLayer>("HUD").GetNode<Control>("Container").Show();
 		energyProgressBar.Value = 0;
 		firingCooldownActive = false;
+		GetNode<DialogueScene>("DialogueScene").Index = 0;
 	}
 
 	private void _on_mob_timer_timeout()

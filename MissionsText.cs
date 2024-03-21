@@ -6,6 +6,6 @@ public class MissionsText
 
     public Dialog RetrieveMissionDialog(int missionIndex, int index) 
     {
-        return Missions[missionIndex].Dialog[index];
+        return Missions[missionIndex].Intro[index];
     }
 }
